@@ -3,6 +3,9 @@
 {% block title %}
     Посты пользователя {{ user.username }}
 {% endblock %}
+{% block header %}
+    Посты пользователя {{ user.username }}
+{% endblock %}
 {% block content %}
     <ul>
         {% for post in posts %}

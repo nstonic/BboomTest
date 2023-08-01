@@ -14,26 +14,9 @@ class UserPostsView(ListView):
     model = Post
     context_object_name = 'posts'
     template_name = 'posts/user_posts.html'
-    user: User = None
-
-    def get_user(self):
-        with suppress(KeyError, User.DoesNotExist, User.MultipleObjectsReturned):  # noqa
-            user_id = self.kwargs['user']
-            self.user = User.objects.get(user_id=user_id)
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        context['user'] = self.user
 
     def get_queryset(self):
-        return Post.objects.filter(user_id=self.user.id)
-
-    def get(self, request, *args, **kwargs):
-        self.get_user()
-        if not self.user:
-            return HttpResponseBadRequest
-        else:
-            return super().get(request, *args, **kwargs)
+        return Post.objects.filter(user_id=self.kwargs['user_id'])
 
 
 class PostViewSet(
