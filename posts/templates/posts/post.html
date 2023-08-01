@@ -14,7 +14,7 @@
                     <a class="nav-link" href="{% url 'posts' post.user.id %}">Все посты</a>
                 </li>
                 <li class="nav-item">
-                    <p class="nav-link active" aria-current="true">{{ post.title | truncatechars:20 }}</p>
+                    <p class="nav-link active" aria-current="true">📄 {{ post.title | truncatechars:20 }}</p>
                 </li>
                 {% if user.is_authenticated and post.user.id == user.id %}
                     <li class="nav-item">
@@ -26,13 +26,34 @@
         <div class="card-body">
             <p class="card-text">{{ post.body }}</p>
             {% if user.is_authenticated and user.id == post.user.id %}
-                <form action="{% url 'post' post.id %}">
-                    {% csrf_token %}
-                    <button type="submit" formmethod="post" class="btn btn-primary">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModal">
+                    Удалить
+                </button>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block modals %}
+    <div class="modal fade" id="delModal" tabindex="-1" aria-labelledby="delModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="delModalLabel">Вход</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Вы уверены, что хотите удалить пост?</p>
+                    <form action="{% url 'post' post.id %}" id="delForm">
+                        {% csrf_token %}
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" formmethod="post" class="btn btn-danger" form="delForm">
                         Удалить
                     </button>
-                </form>
-            {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
