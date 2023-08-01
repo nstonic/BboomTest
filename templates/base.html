@@ -12,13 +12,18 @@
 <body>
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
-        <img src="{% static "logo.png" %}" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+        <a href="{% url 'all_users' %}">
+            <img src="{% static "logo.png" %}" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+        </a>
         {% block header %}{% endblock %}
         <span>
             {% if user.is_authenticated %}
-                <form id="logoutForm" action="{% url 'logout' %}?next={{ current_url }}{% for arg, val in captured_kwargs.items %}&{{ arg }}={{ val }}{% endfor %}">
+                <form id="logoutForm" action="{% url 'logout' %}?next={{ current_url }}">
                     {% csrf_token %}
                 </form>
+                <button type="button" class="btn btn-primary" onclick="location.href='{% url 'add_post' user.id %}';">
+                    Добавить пост
+                </button>
                 <button type="submit" formmethod="post" class="btn btn-primary" form="logoutForm" name="logout_form">
                     Выйти
                 </button>
@@ -54,7 +59,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="loginForm" action="{% url 'login' %}?next={{ current_url }}{% for arg, val in captured_kwargs.items %}&{{ arg }}={{ val }}{% endfor %}">
+                <form id="loginForm" action="{% url 'login' %}?next={{ current_url }}">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label class="form-label">Имя пользователя</label>
@@ -84,7 +89,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="registerForm" action="{% url 'register' %}?next={{ current_url }}{% for arg, val in captured_kwargs.items %}&{{ arg }}={{ val }}{% endfor %}">
+                <form id="registerForm" action="{% url 'register' %}?next={{ current_url }}">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label class="form-label">Имя пользователя</label>

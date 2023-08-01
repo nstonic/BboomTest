@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
-from django.urls import resolve
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
 
@@ -14,9 +13,8 @@ class UsersView(ListView):
     template_name = 'users/users.html'
 
 
+@require_http_methods(['POST'])
 def register_view(request):
-    if request.method == 'GET':
-        return redirect('all_users')
     form = RegisterUserForm(request.POST)
     if form.is_valid():
         form.save()
@@ -24,12 +22,8 @@ def register_view(request):
         password = form.cleaned_data.get('password1')
         user = authenticate(username=username, password=password)
         login(request, user)
-        params = {
-            key: request.GET.get(key)
-            for key in request.GET
-        }
-        next_url_name = params.pop('next')
-        return redirect(next_url_name, **params)
+        next_url = request.GET.get('next')
+        return redirect(next_url)
     context = {
         'errors': form.errors
     }
@@ -43,12 +37,8 @@ def login_view(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
-        params = {
-            key: request.GET.get(key)
-            for key in request.GET
-        }
-        next_url_name = params.pop('next')
-        return redirect(next_url_name, **params)
+        next_url = request.GET.get('next')
+        return redirect(next_url)
     else:
         context = {
             'errors': {'login_error': 'Пользователь не найден'}
@@ -58,27 +48,13 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    params = {
-        key: request.GET.get(key)
-        for key in request.GET
-    }
-    next_url_name = params.pop('next')
-    return redirect(next_url_name, **params)
+    next_url = request.GET.get('next')
+    return redirect(next_url)
 
 
-def inject_register_form(request):
-    current_url = resolve(request.path_info)
+def inject_user_form(request):
     return {
         'register_form': RegisterUserForm(),
-        'current_url': current_url.url_name,
-        'captured_kwargs': current_url.kwargs
-    }
-
-
-def inject_login_form(request):
-    current_url = resolve(request.path_info)
-    return {
         'login_form': LoginUserForm(),
-        'current_url': current_url.url_name,
-        'captured_kwargs': current_url.kwargs
+        'current_url': request.path
     }
