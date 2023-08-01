@@ -21,20 +21,25 @@
             </ul>
         </div>
         <div class="card-body">
-            {% for post in posts %}
-                <div class="card">
-                    <div class="card-header">
-                        {{ post.title }}
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">{{ post.body | truncatechars:200}}</p>
-                        <div class="text-end">
-                            <a href="{% url 'post' post.id %}" class="btn btn-primary">Читать</a>
+            {% if posts %}
+                {% for post in posts %}
+                    <div class="card">
+                        <div class="card-header">
+                            {{ post.title }}
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ post.body | truncatechars:200 }}</p>
+                            <div class="text-end">
+                                <a href="{% url 'post' post.id %}" class="btn btn-primary">Подробнее</a>
+                            </div>
                         </div>
                     </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-secondary" role="alert">
+                    У пользователя еще нет постов
                 </div>
-            {% endfor %}
-
+            {% endif %}
         </div>
     </div>
 {% endblock %}

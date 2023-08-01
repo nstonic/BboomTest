@@ -18,6 +18,7 @@
         {% block header %}{% endblock %}
         <span>
             {% if user.is_authenticated %}
+                <p>{{ user.username }}</p>
                 <form id="logoutForm" action="{% url 'logout' %}?next={{ current_url }}">
                     {% csrf_token %}
                 </form>

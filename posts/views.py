@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import ListView, TemplateView, DetailView
+from django.views.generic import ListView, TemplateView
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 
@@ -11,6 +11,11 @@ from users.models import CustomUser
 
 class CreatePostView(TemplateView):
     template_name = 'posts/add_post.html'
+
+    def get(self, request, *args, **kwargs):
+        if self.request.user.is_anonymous:
+            return redirect('all_users')
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,9 +33,26 @@ class CreatePostView(TemplateView):
         return render(self.request, self.template_name, context=form)
 
 
-class PostView(DetailView):
+class PostView(TemplateView):
     model = Post
     template_name = 'posts/post.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['post'] = get_object_or_404(Post, id=kwargs['pk'])
+        return context
+
+    def post(self, *args, **kwargs):
+        return self.delete(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        post = get_object_or_404(Post, id=kwargs['pk'])
+        if self.request.user.id == post.user.id:
+            user_id = post.user.id
+            post.delete()
+            return redirect('posts', user_id)
+        else:
+            return redirect('posts', self.request.user.id)
 
 
 class UserPostsView(ListView):

@@ -10,8 +10,15 @@
 
 {% block content %}
     <div class="list-group">
-        {% for user in users %}
-            <a href="{% url 'posts' user.id %}" class="list-group-item list-group-item-action">{{ user.username }}</a>
-        {% endfor %}
+        {% if users %}
+            {% for user in users %}
+                <a href="{% url 'posts' user.id %}"
+                   class="list-group-item list-group-item-action">{{ user.username }}</a>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-secondary" role="alert">
+                В нашем блоге еще нет пользователей
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

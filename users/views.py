@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
+from django.urls import NoReverseMatch
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
 
@@ -23,7 +24,10 @@ def register_view(request):
         user = authenticate(username=username, password=password)
         login(request, user)
         next_url = request.GET.get('next')
-        return redirect(next_url)
+        try:
+            return redirect(next_url)
+        except NoReverseMatch:
+            return redirect('all_users')
     context = {
         'errors': form.errors
     }
@@ -38,7 +42,10 @@ def login_view(request):
     if user is not None:
         login(request, user)
         next_url = request.GET.get('next')
-        return redirect(next_url)
+        try:
+            return redirect(next_url)
+        except NoReverseMatch:
+            return redirect('all_users')
     else:
         context = {
             'errors': {'login_error': 'Пользователь не найден'}
@@ -49,7 +56,10 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     next_url = request.GET.get('next')
-    return redirect(next_url)
+    try:
+        return redirect(next_url)
+    except NoReverseMatch:
+        return redirect('all_users')
 
 
 def inject_user_form(request):

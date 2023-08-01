@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {{ post.title }}
+    {{ post.title | truncatechars:20 }}
 {% endblock %}
 {% block header %}
-    Пост «{{ post.title }}» пользователя {{ post.user.username }}
+    Пост «{{ post.title | truncatechars:20 }}» пользователя {{ post.user.username }}
 {% endblock %}
 {% block content %}
     <div class="card text-left">
@@ -25,6 +25,14 @@
         </div>
         <div class="card-body">
             <p class="card-text">{{ post.body }}</p>
+            {% if user.is_authenticated and user.id == post.user.id %}
+                <form action="{% url 'post' post.id %}">
+                    {% csrf_token %}
+                    <button type="submit" formmethod="post" class="btn btn-primary">
+                        Удалить
+                    </button>
+                </form>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
