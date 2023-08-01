@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.urls import NoReverseMatch
 from django.views.decorators.http import require_http_methods
@@ -12,6 +13,11 @@ class UsersView(ListView):
     model = CustomUser
     context_object_name = 'users'
     template_name = 'users/users.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['users'] = CustomUser.objects.annotate(posts_count=Count('posts'))
+        return context
 
 
 @require_http_methods(['POST'])
