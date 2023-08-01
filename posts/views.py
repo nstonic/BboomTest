@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DetailView
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 
@@ -33,14 +33,9 @@ class CreatePostView(TemplateView):
         return render(self.request, self.template_name, context=form)
 
 
-class PostView(TemplateView):
+class PostView(DetailView):
     model = Post
     template_name = 'posts/post.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['post'] = get_object_or_404(Post, id=kwargs['pk'])
-        return context
 
     def post(self, *args, **kwargs):
         return self.delete(*args, **kwargs)
