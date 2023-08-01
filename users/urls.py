@@ -21,6 +21,5 @@ from users.views import UsersView
 
 urlpatterns = [
     path('', UsersView.as_view(), name='all_users'),
-    # path('', include('django.contrib.auth.urls')),
-    # path('register/', Register.as_view(), name='register'),
+    path('', include('django.contrib.auth.urls'))
 ]

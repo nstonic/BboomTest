@@ -12,9 +12,20 @@
 <body>
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
-        <img src="{% static "logo.png" %}" alt="Logo" width="40"height="40" class="d-inline-block align-text-top">
-        Пользователи блога
-        <a class="btn btn-primary" href="{% url 'admin:index' %}">Администрировать</a>
+        <img src="{% static "logo.png" %}" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+        {% block header %}{% endblock %}
+        <span>
+            {% if user.is_authenticated %}
+                Выход
+            {% else %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Вход
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                    Регистрация
+                </button>
+            {% endif %}
+        </span>
     </div>
 </nav>
 
@@ -27,4 +38,74 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
 </body>
+
+
+<!-- Modals -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loginModalLabel">Вход</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Имя пользователя</label>
+                        {{ login_form.username }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Пароль</label>
+                        {{ login_form.password }}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="submit" class="btn btn-primary" form="loginForm" name="login_form">Войти</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="registerModalLabel">Вход</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Имя пользователя</label>
+                        {{ register_form.username }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        {{ register_form.email }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Пароль</label>
+                        {{ register_form.password1 }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Пароль ещё раз</label>
+                        {{ register_form.password2 }}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="submit" class="btn btn-primary" form="registerForm" name="register_form">
+                    Зарегистрироваться
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </html>
