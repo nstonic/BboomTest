@@ -1,11 +1,8 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, TemplateView, DetailView
-from rest_framework import mixins, viewsets
-from rest_framework.response import Response
 
 from posts.forms import CreatePostForm
 from posts.models import Post
-from posts.serializers import PostSerializer
 from users.models import CustomUser
 
 
@@ -14,7 +11,7 @@ class CreatePostView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         if self.request.user.is_anonymous:
-            return redirect('all_users')
+            return redirect('home')
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -29,7 +26,7 @@ class CreatePostView(TemplateView):
             user_id = self.kwargs['user_id']
             post.user = get_object_or_404(CustomUser, id=user_id)
             post.save()
-            return redirect('posts', user_id=user_id)
+            return redirect('user_posts', user_id=user_id)
         return render(self.request, self.template_name, context=form)
 
 
@@ -45,9 +42,9 @@ class PostView(DetailView):
         if self.request.user.id == post.user.id:
             user_id = post.user.id
             post.delete()
-            return redirect('posts', user_id)
+            return redirect('user_posts', user_id)
         else:
-            return redirect('posts', self.request.user.id)
+            return redirect('user_posts', self.request.user.id)
 
 
 class UserPostsView(ListView):
@@ -63,23 +60,3 @@ class UserPostsView(ListView):
         current_user = get_object_or_404(CustomUser, id=self.kwargs['user_id'])
         context['current_user'] = current_user
         return context
-
-
-class PostViewSet(
-    mixins.CreateModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet
-):
-    serializer_class = PostSerializer
-
-    def list(self, request, *args, **kwargs):
-        # ToDo Вывести посты конкретного пользователя
-        queryset = self.filter_queryset(self.get_queryset())
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)

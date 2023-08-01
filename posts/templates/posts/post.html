@@ -11,7 +11,7 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'posts' post.user.id %}">Все посты</a>
+                    <a class="nav-link" href="{% url 'user_posts' post.user.id %}">Все посты</a>
                 </li>
                 <li class="nav-item">
                     <p class="nav-link active" aria-current="true">📄 {{ post.title | truncatechars:20 }}</p>
@@ -45,7 +45,6 @@
                     <p>Вы уверены, что хотите удалить пост?</p>
                     <form action="{% url 'post' post.id %}" id="delForm">
                         {% csrf_token %}
-
                     </form>
                 </div>
                 <div class="modal-footer">

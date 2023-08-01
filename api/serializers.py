@@ -1,0 +1,15 @@
+from rest_framework.fields import IntegerField
+from rest_framework.serializers import ModelSerializer
+
+from posts.models import Post
+
+
+class PostSerializer(ModelSerializer):
+    id = IntegerField(
+        required=False,
+        read_only=True
+    )
+
+    class Meta:
+        model = Post
+        fields = ['id', 'user', 'title', 'body']

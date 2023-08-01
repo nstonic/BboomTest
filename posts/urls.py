@@ -19,7 +19,7 @@ from django.urls import path
 from posts.views import UserPostsView, CreatePostView, PostView
 
 urlpatterns = [
-    path('user/<int:user_id>/', UserPostsView.as_view(), name='posts'),
+    path('user/<int:user_id>/', UserPostsView.as_view(), name='user_posts'),
     path('<int:pk>/', PostView.as_view(), name='post'),
     path('user/<int:user_id>/add', CreatePostView.as_view(), name='add_post'),
 ]

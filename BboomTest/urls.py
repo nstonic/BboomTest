@@ -22,5 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('posts/', include('posts.urls')),
-    path('', RedirectView.as_view(url=reverse_lazy('all_users'), permanent=False)),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/', include('api.urls')),
+    path('', RedirectView.as_view(url=reverse_lazy('home'), permanent=False)),
 ]

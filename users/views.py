@@ -33,7 +33,7 @@ def register_view(request):
         try:
             return redirect(next_url)
         except NoReverseMatch:
-            return redirect('all_users')
+            return redirect('home')
     context = {
         'errors': form.errors
     }
@@ -51,7 +51,7 @@ def login_view(request):
         try:
             return redirect(next_url)
         except NoReverseMatch:
-            return redirect('all_users')
+            return redirect('home')
     else:
         context = {
             'errors': {'login_error': 'Пользователь не найден'}
@@ -65,7 +65,7 @@ def logout_view(request):
     try:
         return redirect(next_url)
     except NoReverseMatch:
-        return redirect('all_users')
+        return redirect('home')
 
 
 def inject_user_form(request):
