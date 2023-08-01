@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.urls import path
 
-from posts.views import UserPostsView
+from posts.views import UserPostsView, CreatePostView, PostView
 
 urlpatterns = [
-    path('<int:user_id>/', UserPostsView.as_view(), name='posts')
+    path('user/<int:user_id>/', UserPostsView.as_view(), name='posts'),
+    path('<int:pk>/', PostView.as_view(), name='post'),
+    path('user/<int:user_id>/add', CreatePostView.as_view(), name='add_post'),
 ]

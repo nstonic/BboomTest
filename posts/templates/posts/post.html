@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+{% block header %}
+    Пост «{{ post.title }}» пользователя {{ post.user.username }}
+{% endblock %}
+{% block content %}
+    <div class="card text-left">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'posts' post.user.id %}">Все посты</a>
+                </li>
+                <li class="nav-item">
+                    <p class="nav-link active" aria-current="true">{{ post.title | truncatechars:20 }}</p>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'add_post' user.id %}">Добавить пост</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ post.body }}</p>
+        </div>
+    </div>
+{% endblock %}

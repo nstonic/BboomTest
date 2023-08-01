@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Посты пользователя {{ user.username }}
+{% endblock %}
+{% block header %}
+    Посты пользователя {{ user.username }}
+{% endblock %}
+{% block content %}
+    <div class="card text-left">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'posts' user.id %}">Все посты</a>
+                </li>
+                <li class="nav-item">
+                    <p class="nav-link active" aria-current="true">Добавить пост</p>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <form id="addPost">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Заголовок</label>
+                    {{ post_form.title }}
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                    {{ post_form.body }}
+                </div>
+                <button type="submit" formmethod="post" class="btn btn-primary" form="addPost" name="post_form">
+                    Отправить
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

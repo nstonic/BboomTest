@@ -1,15 +1,40 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Посты пользователя {{ user.username }}
+    Посты пользователя {{ current_user.username }}
 {% endblock %}
 {% block header %}
-    Посты пользователя {{ user.username }}
+    Посты пользователя {{ current_user.username }}
 {% endblock %}
 {% block content %}
-    <ul>
-        {% for post in posts %}
-            <li>{{ post.title }}</li>
-        {% endfor %}
-    </ul>
+    <div class="card text-left">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <p class="nav-link active" aria-current="true">Все посты</p>
+                </li>
+                {% if user.is_authenticated and current_user.id == user.id %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'add_post' user.id %}">Добавить пост</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="card-body">
+            {% for post in posts %}
+                <div class="card">
+                    <div class="card-header">
+                        {{ post.title }}
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ post.body | truncatechars:200}}</p>
+                        <div class="text-end">
+                            <a href="{% url 'post' post.id %}" class="btn btn-primary">Читать</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
 {% endblock %}
