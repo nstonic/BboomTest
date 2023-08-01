@@ -9,9 +9,9 @@
 {% endblock %}
 
 {% block content %}
-    <ul>
+    <div class="list-group">
         {% for user in users %}
-            <li>{{ user.username }}</li>
+            <a href="{% url 'posts' user.id %}" class="list-group-item list-group-item-action">{{ user.username }}</a>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

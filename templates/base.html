@@ -16,7 +16,12 @@
         {% block header %}{% endblock %}
         <span>
             {% if user.is_authenticated %}
-                Выход
+                <form id="logoutForm" action="{% url 'logout' %}?next={{ current_url }}{% for arg, val in captured_kwargs.items %}&{{ arg }}={{ val }}{% endfor %}">
+                    {% csrf_token %}
+                </form>
+                <button type="submit" formmethod="post" class="btn btn-primary" form="logoutForm" name="logout_form">
+                    Выйти
+                </button>
             {% else %}
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
                     Вход
@@ -49,7 +54,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="loginForm">
+                <form id="loginForm" action="{% url 'login' %}?next={{ current_url }}{% for arg, val in captured_kwargs.items %}&{{ arg }}={{ val }}{% endfor %}">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label class="form-label">Имя пользователя</label>
@@ -63,7 +68,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                <button type="submit" class="btn btn-primary" form="loginForm" name="login_form">Войти</button>
+                <button type="submit" formmethod="post" class="btn btn-primary" form="loginForm" name="login_form">
+                    Войти
+                </button>
             </div>
         </div>
     </div>
@@ -77,7 +84,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="registerForm">
+                <form id="registerForm" action="{% url 'register' %}?next={{ current_url }}{% for arg, val in captured_kwargs.items %}&{{ arg }}={{ val }}{% endfor %}">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label class="form-label">Имя пользователя</label>
@@ -99,7 +106,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                <button type="submit" class="btn btn-primary" form="registerForm" name="register_form">
+                <button type="submit" formmethod="post" class="btn btn-primary" form="registerForm"
+                        name="register_form">
                     Зарегистрироваться
                 </button>
             </div>
