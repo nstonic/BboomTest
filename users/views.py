@@ -66,5 +66,5 @@ def inject_user_form(request):
     return {
         'register_form': RegisterUserForm(),
         'login_form': LoginUserForm(),
-        'current_url': request.path
+        'next': request.path
     }

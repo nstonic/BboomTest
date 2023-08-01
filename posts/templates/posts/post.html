@@ -16,7 +16,7 @@
                 <li class="nav-item">
                     <p class="nav-link active" aria-current="true">{{ post.title | truncatechars:20 }}</p>
                 </li>
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and post.user.id == user.id %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'add_post' user.id %}">Добавить пост</a>
                     </li>

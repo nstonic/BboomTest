@@ -19,7 +19,7 @@
         <span>
             {% if user.is_authenticated %}
                 <p>{{ user.username }}</p>
-                <form id="logoutForm" action="{% url 'logout' %}?next={{ current_url }}">
+                <form id="logoutForm" action="{% url 'logout' %}?next={{ next }}">
                     {% csrf_token %}
                 </form>
                 <button type="button" class="btn btn-primary" onclick="location.href='{% url 'add_post' user.id %}';">
@@ -60,7 +60,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="loginForm" action="{% url 'login' %}?next={{ current_url }}">
+                <form id="loginForm" action="{% url 'login' %}?next={{ next }}">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label class="form-label">Имя пользователя</label>
@@ -90,7 +90,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="registerForm" action="{% url 'register' %}?next={{ current_url }}">
+                <form id="registerForm" action="{% url 'register' %}?next={{ next }}">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label class="form-label">Имя пользователя</label>
