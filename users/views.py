@@ -52,7 +52,7 @@ def login_view(request):
             return redirect('home')
     else:
         context = {
-            'errors': {'Ошибка авторизации': ['Пользователь не найден']}
+            'errors': {'Ошибка авторизации': ['Неверный логин или пароль']}
         }
         return render(request, template_name='errors.html', context=context)
 
