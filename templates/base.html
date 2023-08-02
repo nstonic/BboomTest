@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="{% static "logo.png" %}">
+    <link rel="icon" type="image/x-icon" href="{% static "favicon.png" %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <title>{% block title %}{% endblock %}</title>
@@ -12,7 +12,9 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand mb-0 h1" href="{% url 'home' %}">PostMe</a>
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'logo.png' %}" alt="Bootstrap" height="40">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -27,17 +29,25 @@
                     </li>
                     <li class="nav-item">
                         <form id="logoutForm" action="{% url 'logout' %}?next={{ next }}">{% csrf_token %}</form>
-                        <button type="button" class="nav-link" onclick="location.href='{% url 'add_post' user.id %}';">Добавить пост</button>
+                        <button type="button" class="nav-link" onclick="location.href='{% url 'add_post' user.id %}';">
+                            Добавить пост
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button type="submit" formmethod="post" class="nav-link" form="logoutForm" name="logout_form">Выйти</button>
+                        <button type="submit" formmethod="post" class="nav-link" form="logoutForm" name="logout_form">
+                            Выйти
+                        </button>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Вход</button>
+                        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            Вход
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#registerModal">Регистрация</button>
+                        <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#registerModal">
+                            Регистрация
+                        </button>
                     </li>
                 {% endif %}
             </ul>
