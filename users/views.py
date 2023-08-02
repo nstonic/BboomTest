@@ -2,7 +2,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.urls import NoReverseMatch
-from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
 
 from users.forms import RegisterUserForm, LoginUserForm
@@ -20,8 +19,10 @@ class UsersView(ListView):
         return context
 
 
-@require_http_methods(['POST'])
 def register_view(request):
+    if request.method != 'POST':
+        return redirect('home')
+
     form = RegisterUserForm(request.POST)
     if form.is_valid():
         form.save()
@@ -38,8 +39,10 @@ def register_view(request):
     return render(request, template_name='errors.html', context=context)
 
 
-@require_http_methods(['POST'])
 def login_view(request):
+    if request.method != 'POST':
+        return redirect('home')
+
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
@@ -58,6 +61,9 @@ def login_view(request):
 
 
 def logout_view(request):
+    if request.method != 'POST':
+        return redirect('home')
+
     logout(request)
     next_url = request.GET.get('next')
     try:
