@@ -10,11 +10,11 @@
  - Установить виртуальное окружение `python3 -m venv venv`
  - Запустите его `source venv/bin/activate`
  - Установите зависимости `pip install -r requirements.txt`
- - Задайте переменные окружения:
+ - Задайте переменные окружения (для локального окружения установите DEBUG = True):
 ```shell
   SECRET_KEY = '123456'
   DEBUG = True
-  ALLOWED_HOSTS = 127.0.0.1
+  ALLOWED_HOSTS = 127.0.0.1,my_host
 ```
 - Отмигрируйте БД `python3 manage.py migrate`
 - Запустите веб сервер `python3 manage.py runserver`
