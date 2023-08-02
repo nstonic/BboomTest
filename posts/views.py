@@ -27,7 +27,7 @@ class CreatePostView(TemplateView):
             post.user = get_object_or_404(CustomUser, id=user_id)
             post.save()
             return redirect('user_posts', user_id=user_id)
-        return render(self.request, self.template_name, context=form)
+        return render(self.request, self.template_name, context={'form': form})
 
 
 class PostView(DetailView):
