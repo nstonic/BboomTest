@@ -8,7 +8,7 @@ from users.models import CustomUser
 class UserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'posts']
+        fields = ['username', 'email']
 
 
 class PostSerializer(ModelSerializer):
