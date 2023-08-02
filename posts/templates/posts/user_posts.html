@@ -3,9 +3,6 @@
 {% block title %}
     Посты пользователя {{ current_user.username }}
 {% endblock %}
-{% block header %}
-    Посты пользователя {{ current_user.username }}
-{% endblock %}
 {% block content %}
     <div class="card text-left">
         <div class="card-header">
@@ -25,7 +22,7 @@
                 {% for post in posts %}
                     <div class="card">
                         <div class="card-header">
-                            <a href="{% url 'post' post.id %}" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"> - {{ post.title }}</a>
+                            <a href="{% url 'post' post.id %}" class="nav-link">{{ post.title }}</a>
                         </div>
                         <div class="card-body">
                             <p class="card-text">{{ post.body | truncatechars:200 }}</p>

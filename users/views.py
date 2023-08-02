@@ -34,9 +34,7 @@ def register_view(request):
             return redirect(next_url)
         except NoReverseMatch:
             return redirect('home')
-    context = {
-        'errors': form.errors
-    }
+    context = {'form': form}
     return render(request, template_name='errors.html', context=context)
 
 
@@ -54,7 +52,7 @@ def login_view(request):
             return redirect('home')
     else:
         context = {
-            'errors': {'login_error': 'Пользователь не найден'}
+            'errors': {'Ошибка авторизации': ['Пользователь не найден']}
         }
         return render(request, template_name='errors.html', context=context)
 

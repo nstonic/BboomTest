@@ -3,9 +3,6 @@
 {% block title %}
     {{ post.title | truncatechars:20 }}
 {% endblock %}
-{% block header %}
-    Пост «{{ post.title | truncatechars:20 }}» пользователя {{ post.user.username }}
-{% endblock %}
 {% block content %}
     <div class="card text-left">
         <div class="card-header">
@@ -38,19 +35,17 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="delModalLabel">Вход</h1>
+                    <h1 class="modal-title fs-5" id="delModalLabel">Удаление поста</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Вы уверены, что хотите удалить пост?</p>
+                    <p>Вы уверены, что хотите удалить этот пост?</p>
                     <form action="{% url 'post' post.id %}" id="delForm">
                         {% csrf_token %}
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" formmethod="post" class="btn btn-danger" form="delForm">
-                        Удалить
-                    </button>
+                    <button type="submit" formmethod="post" class="btn btn-danger" form="delForm">Удалить</button>
                 </div>
             </div>
         </div>
