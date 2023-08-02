@@ -1,4 +1,6 @@
 from rest_framework import mixins, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from api.serializers import PostSerializer, UserSerializer
 from posts.models import Post
@@ -20,3 +22,9 @@ class UserViewSet(
 ):
     serializer_class = UserSerializer
     queryset = CustomUser.objects.all()
+
+    @action(methods=['get'], detail=True)
+    def posts(self, request, pk: int):
+        posts = Post.objects.filter(user__id=pk)
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
