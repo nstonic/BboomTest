@@ -1,4 +1,4 @@
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -14,6 +14,7 @@ class PostViewSet(
 ):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class UserViewSet(
